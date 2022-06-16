@@ -1,3 +1,11 @@
 import ENV from '../config.json' assert {type: 'json'};
 
-console.log(`API URL = https://api.themoviedb.org/3/movie/76341?api_key=${ENV.API_KEY}`);
+async function getTrendingMoviesPreview(){
+    const response = await fetch(`${ENV.API_URL}/trending/movie/day?api_key=${ENV.API_KEY}`);
+    const data = await response.json();
+    
+    const movies = data.results
+    console.log({ data, movies})
+}
+
+getTrendingMoviesPreview()
