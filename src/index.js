@@ -1,8 +1,17 @@
 import ENV from '../config.json' assert {type: 'json'};
 
+const api = axios.create({
+  baseURL: ENV.API_URL,
+  headers: {
+    'Content-Type': 'application/json;carset=utf-8',
+  },
+   params:{
+      api_key: ENV.API_KEY
+   }
+});
+
 async function getTrendingMoviesPreview(){
-    const response = await fetch(`${ENV.API_URL}/trending/movie/day?api_key=${ENV.API_KEY}`);
-    const data = await response.json();
+    const {data} = await api('trending/movie/day');
     
     const movies = data.results
     movies.forEach(movie => {
@@ -23,8 +32,7 @@ async function getTrendingMoviesPreview(){
 }
 
 async function getCategoriesPreview(){
-  const response = await fetch(`${ENV.API_URL}/genre/movie/list?api_key=${ENV.API_KEY}`);
-  const data = await response.json();
+  const {data} = await api('genre/movie/list');
   
   const categories = data.genres
   categories.forEach(category => {
