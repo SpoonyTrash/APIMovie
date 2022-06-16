@@ -5,7 +5,20 @@ async function getTrendingMoviesPreview(){
     const data = await response.json();
     
     const movies = data.results
-    console.log({ data, movies})
+    movies.forEach(movie => {
+    const trendingPreviewMoviesContainer = document.querySelector('#trendingPreview .trendingPreview-movieList');
+
+      const movieContainer = document.createElement('div');
+      movieContainer.classList.add('movie-container');
+
+      const movieImg = document.createElement('img');
+      movieImg.classList.add('movie-img');
+      movieImg.setAttribute("alt", movie.title);
+      movieImg.setAttribute("src", `${ENV.IMG_URL}${movie.poster_path}`);
+
+      movieContainer.appendChild(movieImg);
+
+    })
 }
 
 getTrendingMoviesPreview()
