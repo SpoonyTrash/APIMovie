@@ -17,6 +17,7 @@ async function getTrendingMoviesPreview(){
       movieImg.setAttribute("src", `${ENV.IMG_URL}${movie.poster_path}`);
 
       movieContainer.appendChild(movieImg);
+      trendingPreviewMoviesContainer.appendChild(movieContainer);
 
     })
 }
