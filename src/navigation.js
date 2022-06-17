@@ -100,6 +100,7 @@ function moviePage(){
 }
 
 function categoryPage(){
+  window.scrollTo(0, 0);
   console.log("CATEGORY");
 
   headerSection.classList.remove('header-container--long');
