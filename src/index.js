@@ -27,26 +27,25 @@ function createMovies(movies, container){
   })
 }
 
-function createCategories(categories, container){
-  container.innerHTML = '';
-  categories.forEach(category => {
-    categories.forEach(category => {  
-      const categoryContainer = document.createElement('div');
-      categoryContainer.classList.add('category-container');
-  
-      const categoryTitle = document.createElement('h3');
-      categoryTitle.classList.add('category-title');
-      categoryTitle.addEventListener('click', () => {
-        location.hash = `#category=${category.id}-${category.name}`;
-      })
-      categoryTitle.setAttribute("id", `id${category.id}`);
-      const categoryTitleText = document.createTextNode(category.name);
-  
-      categoryTitle.appendChild(categoryTitleText);
-      categoryContainer.appendChild(categoryTitle);
-      container.appendChild(categoryContainer);
-    })
-  })
+function createCategories(categories, container) {
+  container.innerHTML = "";
+
+  categories.forEach(category => {  
+    const categoryContainer = document.createElement('div');
+    categoryContainer.classList.add('category-container');
+
+    const categoryTitle = document.createElement('h3');
+    categoryTitle.classList.add('category-title');
+    categoryTitle.setAttribute('id', 'id' + category.id);
+    categoryTitle.addEventListener('click', () => {
+      location.hash = `#category=${category.id}-${category.name}`;
+    });
+    const categoryTitleText = document.createTextNode(category.name);
+
+    categoryTitle.appendChild(categoryTitleText);
+    categoryContainer.appendChild(categoryTitle);
+    container.appendChild(categoryContainer);
+  });
 }
 
 export async function getTrendingMoviesPreview(){
@@ -66,6 +65,17 @@ export async function getMoviesByCategory(id){
   const {data} = await api(`discover/movie/`, {
     params: {
       with_genres: id
+    }
+  });
+    
+  const movies = data.results
+  createMovies(movies, genericSection);
+}
+
+export async function getMoviesBySearch(query){
+  const {data} = await api(`search/movie`, {
+    params: {
+      query
     }
   });
     
