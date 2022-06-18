@@ -1,4 +1,4 @@
-import {getTrendingMoviesPreview, getCategoriesPreview, getMoviesByCategory, getMoviesBySearch} from './index.js';
+import {getTrendingMoviesPreview, getCategoriesPreview, getMoviesByCategory, getMoviesBySearch, getTrendingMovies} from './index.js';
 
 searchFormBtn.addEventListener('click', () => {
   location.hash = '#search=' + searchFormInput.value;
@@ -9,7 +9,7 @@ trendingBtn.addEventListener('click', () => {
 })
 
 arrowBtn.addEventListener('click', () => {
-  location.hash = '#home';
+  history.back();
 })
 
 window.addEventListener('DOMContentLoaded', navigator, false)
@@ -65,14 +65,13 @@ function trendsPage(){
   categoriesPreviewSection.classList.add('inactive');
   genericSection.classList.remove('inactive');
   movieDetailSection.classList.add('inactive');
+
+  headerCategoryTitle.innerHTML = 'Trending'
+  getTrendingMovies()
 }
 
 function searchPage(){
   console.log("SEARCH");
-
-  arrowBtn.addEventListener('click', () => {
-    location.hash = window.history.back();
-  })
 
   headerSection.classList.remove('header-container--long');
   headerSection.style.background = '';
