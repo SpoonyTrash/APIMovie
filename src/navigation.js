@@ -1,4 +1,4 @@
-import {getTrendingMoviesPreview, getCategoriesPreview, getMoviesByCategory, getMoviesBySearch, getTrendingMovies} from './index.js';
+import {getTrendingMoviesPreview, getCategoriesPreview, getMoviesByCategory, getMoviesBySearch, getTrendingMovies, getMovieById} from './index.js';
 
 searchFormBtn.addEventListener('click', () => {
   location.hash = '#search=' + searchFormInput.value;
@@ -103,6 +103,9 @@ function moviePage(){
   categoriesPreviewSection.classList.add('inactive');
   genericSection.classList.add('inactive');
   movieDetailSection.classList.remove('inactive');
+
+  const [_, movieId] = location.hash.split('=')
+  getMovieById(movieId)
 }
 
 function categoryPage(){
