@@ -54,8 +54,8 @@ function homePage(){
 function trendsPage(){
   console.log("TRENDS");
 
-  headerSection.classList.remove('header-container--long');
-  headerSection.style.background = '';
+  headerSection.remove('header-container--long');
+  headerSection.style.backgroclassListund = '';
   arrowBtn.classList.remove('inactive');
   arrowBtn.classList.remove('header-arrow--white');
   headerTitle.classList.add('inactive');

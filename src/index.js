@@ -19,9 +19,10 @@ const lazyLoader = new IntersectionObserver((entries) => {
   })
 });
 
-function createMovies(movies, container, lazyLoad = false){
-  container.innerHTML = '';
-
+function createMovies(movies, container, {lazyLoad = false, clean = true} = {}){
+  if(clean){
+    container.innerHTML = '';
+  }
   movies.forEach(movie => {
     const movieContainer = document.createElement('div');
     movieContainer.classList.add('movie-container');
@@ -34,6 +35,9 @@ function createMovies(movies, container, lazyLoad = false){
     movieImg.setAttribute("alt", movie.title);
     movieImg.setAttribute(lazyLoad ? "data-img" : "src", `${ENV.IMG_URL}${movie.poster_path}`);
 
+    movieImg.addEventListener('error', () => {
+      movieImg.setAttribute('src', 'https://static.platzi.com/static/images/error/img404.png')
+    })
     if(lazyLoad){
       lazyLoader.observe(movieImg)
     }
@@ -41,6 +45,27 @@ function createMovies(movies, container, lazyLoad = false){
     movieContainer.appendChild(movieImg);
     container.appendChild(movieContainer);
 
+  })
+}
+
+let page = 1
+
+async function getPaginedTrendingMovies(){
+  page++
+  const {data} = await api('trending/movie/day', {
+    params: {
+      page
+    }
+  });
+  const movies = data.results
+
+  createMovies(movies, genericSection, {lazyLoad: true, clean: false});
+
+  const btnLoadMore = document.createElement('button')
+  btnLoadMore.innerHTML = 'Load more'
+  genericSection.appendChild(btnLoadMore)
+  btnLoadMore.addEventListener('click', () => {
+    getPaginedTrendingMovies()
   })
 }
 
@@ -69,7 +94,7 @@ export async function getTrendingMoviesPreview(){
     const {data} = await api('trending/movie/day');
     const movies = data.results
 
-    createMovies(movies, trendingMoviesPreviewList, true);
+    createMovies(movies, trendingMoviesPreviewList, {lazyLoad: true, clean: true});
 }
 
 export async function getCategoriesPreview(){
@@ -86,7 +111,7 @@ export async function getMoviesByCategory(id){
   });
     
   const movies = data.results
-  createMovies(movies, genericSection);
+  createMovies(movies, genericSection, {lazyLoad: true, clean: false});
 }
 
 export async function getMoviesBySearch(query){
@@ -104,7 +129,14 @@ export async function getTrendingMovies(){
   const {data} = await api('trending/movie/day');
   const movies = data.results
 
-  createMovies(movies, genericSection);
+  createMovies(movies, genericSection, {lazyLoad: true, clean: true});
+
+  const btnLoadMore = document.createElement('button')
+  btnLoadMore.innerHTML = 'Load more'
+  genericSection.appendChild(btnLoadMore)
+  btnLoadMore.addEventListener('click', () => {
+    getPaginedTrendingMovies()
+  })
 }
 
 export async function getMovieById(id){
@@ -132,4 +164,4 @@ async function getRelatedMoviesId(id){
   const getRelatedMovies = data.results;
 
   createMovies(getRelatedMovies, relatedMoviesContainer);
-}
+} 

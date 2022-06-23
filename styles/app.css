@@ -126,6 +126,7 @@ button {
 
 .movie-img {
   border-radius: 8px;
+  min-height: 175px;
 }
 
 .categoriesPreview-list, .categories-list {
@@ -158,6 +159,12 @@ button {
 
 .header-title {
   margin-bottom: 16px;
+  display: flex;
+}
+
+.header-title > img{
+  height: 50px;
+  width: 50px;
 }
 
 .header-arrow {
